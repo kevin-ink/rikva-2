@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "maven-pro": ["var(--font-maven-pro)"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
