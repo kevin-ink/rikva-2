@@ -4,6 +4,18 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useScroll, useMotionValueEvent } from "motion/react";
 
+const firstImage = (
+  <Image
+    src="/airplane_mp4_frames/out1.jpg"
+    alt="airplane first image"
+    width={1920}
+    height={1080}
+    priority
+    style={{ objectFit: "cover", width: "100vw", height: "100vh" }}
+    placeholder="empty"
+  />
+);
+
 export default function ScrollCanvas({ frames }: { frames: number }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [first, setFirst] = useState(true);
@@ -20,35 +32,40 @@ export default function ScrollCanvas({ frames }: { frames: number }) {
 
     if (ctx && images[frame] && canvas.current) {
       const image = images[frame];
-      canvas.current.width = image.width;
-      canvas.current.height = image.height;
+
+      canvas.current.width = window.innerWidth;
+      canvas.current.height = window.innerHeight;
+
       ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
 
-      if (frame >= 200) {
-        const maxShrinkFrames = 100;
-        const shrinkFactor = Math.min((frame - 200) / maxShrinkFrames, 1);
-        const shrinkAmount =
-          shrinkFactor * Math.min(image.width, image.height) * 0.3;
-
-        const drawWidth = image.width - shrinkAmount * 2;
-        const drawHeight = image.height - shrinkAmount * 2;
-        const offsetX = shrinkAmount;
-        const offsetY = shrinkAmount * 2;
-
-        ctx.drawImage(
-          image,
-          offsetX,
-          offsetY,
-          drawWidth,
-          drawHeight,
-          offsetX,
-          offsetY,
-          drawWidth,
-          drawHeight
-        );
+      let drawWidth, drawHeight;
+      if (window.innerHeight > window.innerWidth) {
+        drawHeight = canvas.current.height;
+        drawWidth = (image.width / image.height) * drawHeight;
       } else {
-        ctx.drawImage(image, 0, 0);
+        drawWidth = canvas.current.width;
+        drawHeight = (image.height / image.width) * drawWidth;
       }
+
+      let offsetX = (canvas.current.width - drawWidth) / 2;
+      let offsetY = (canvas.current.height - drawHeight) / 2;
+
+      let shrinkAmount = 0;
+
+      if (frame >= 200) {
+        const maxShrinkFrames = 52;
+        const shrinkFactor = Math.min((frame - 200) / maxShrinkFrames, 1);
+        shrinkAmount = shrinkFactor * Math.min(image.width, image.height) * 0.3;
+
+        const aspectRatio = drawWidth / drawHeight;
+        drawWidth -= shrinkAmount;
+        drawHeight = drawWidth / aspectRatio;
+      }
+
+      offsetX = (canvas.current.width - drawWidth) / 2;
+      offsetY = (canvas.current.height - drawHeight) / 2 + shrinkAmount / 2.8;
+
+      ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
     }
   });
 
@@ -68,14 +85,17 @@ export default function ScrollCanvas({ frames }: { frames: number }) {
 
   return (
     <div className="w-full" style={{ height: `${frames * 3}vh` }}>
-      {images[0] && first && <Image src={images[0].src} alt="default" fill />}
+      {first && firstImage}
       <canvas
         ref={canvas}
-        className="w-full sticky top-0 -z-10 transition-all"
+        className="w-full sticky top-0 -z-10 h-screen transition-all"
       ></canvas>
-      <div className="w-full absolute top-0 h-screen flex justify-center items-center text-3xl text-black z-20 left-0">
-        In 2018, there were upwards of 1.1 billion scheduled passengers in the
-        U.S. alone.
+      <div className="w-full absolute top-0 h-screen flex flex-col justify-center items-center text-center text-white font-maven-pro left-0">
+        <p className="font-bold text-5xl">
+          In 2018, there were upwards of 1.1 billion scheduled passengers in the
+          U.S. alone.
+        </p>
+        <p className="text-lg">Bureau of Transportation Statistics</p>
       </div>
     </div>
   );

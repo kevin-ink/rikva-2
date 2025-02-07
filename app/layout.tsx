@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Maven_Pro } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/navbar";
 
 const mavenPro = Maven_Pro({
   variable: "--font-maven-pro",
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body
         className={`${mavenPro.variable} bg-sky-200 w-full min-h-screen antialiased`}
       >
+        <Navbar />
         {children}
       </body>
     </html>

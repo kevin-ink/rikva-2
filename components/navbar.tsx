@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Flyout from "./flyout";
+import NavLink from "./navlink";
 
 export default function Navbar() {
   const [flyout, setFlyout] = useState(0);
@@ -14,7 +15,7 @@ export default function Navbar() {
   return (
     <div
       onMouseLeave={() => setFlyout(0)}
-      className={`h-auto w-full font-maven-pro text-sky-100 transition-all fixed z-10 ${
+      className={`h-auto w-full font-maven-pro text-sky-100 transition-all fixed z-50 ${
         flyout > 0 ? "bg-sky-800/90" : "bg-sky-700/80"
       }`}
     >
@@ -31,19 +32,26 @@ export default function Navbar() {
           </div>
         </div>
         <div className="w-fit flex flex-row justify-around items-center">
-          <Link
-            href="/data"
-            className="navlink"
+          <NavLink
+            href="/"
+            text="Introduction"
             onMouseEnter={() => handleFlyout(200)}
-          >
-            Data
-          </Link>
-          <Link href="/narrative" className="navlink">
-            Narrative
-          </Link>
-          <Link href="/about" className="navlink">
-            About
-          </Link>
+          />
+          <NavLink
+            href="/data"
+            text="Data"
+            onMouseEnter={() => handleFlyout(200)}
+          />
+          <NavLink
+            href="/narrative"
+            text="Narrative"
+            onMouseEnter={() => handleFlyout(200)}
+          />
+          <NavLink
+            href="/about"
+            text="About"
+            onMouseEnter={() => handleFlyout(200)}
+          />
         </div>
         <div className="flex-1"></div>
       </div>
