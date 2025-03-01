@@ -8,8 +8,8 @@ export default function NavigationFooter({
 }: {
   prevHref: string | null;
   prev: string | null;
-  nextHref: string;
-  next: string;
+  nextHref: string | null;
+  next: string | null;
 }) {
   return (
     <div className="h-auto w-full flex flex-row justify-between xl:px-10 px-6 font-maven-pro font-semibold text-lg mt-4 md:mt pb-4">
@@ -23,13 +23,17 @@ export default function NavigationFooter({
       ) : (
         <div></div>
       )}
-      <Link
-        className="flex flex-col items-center hover:bg-white p-2"
-        href={nextHref}
-      >
-        Next Part:
-        <span>{next}</span>
-      </Link>
+      {nextHref ? (
+        <Link
+          className="flex flex-col items-center hover:bg-white p-2"
+          href={nextHref}
+        >
+          Next Part:
+          <span>{next}</span>
+        </Link>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

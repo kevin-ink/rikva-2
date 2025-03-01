@@ -21,14 +21,16 @@ export default function Navbar() {
     >
       <div className="h-11 w-full flex flex-row justify-between items-center">
         <div className="flex-1 flex flex-row justify-start">
-          <Link
-            href="/"
-            className="peer text-2xl/6 font-bold peer-hover:text-white hover:text-white ml-5 "
-          >
-            R
-          </Link>
-          <div className="peer text-base/7 font-bold text-right w-0 overflow-hidden transition-all duration-200 hover:w-[38px] text-white peer-hover:w-[38px]">
-            IKVA
+          <div className="group flex">
+            <Link
+              href="/"
+              className="text-2xl/6 font-bold hover:text-white group-hover:text-white ml-5"
+            >
+              R
+            </Link>
+            <div className="cursor-default group-hover:w-[38px] hover:w-[38px] text-base/7 font-bold text-right w-0 overflow-hidden transition-all duration-200 text-white">
+              IKVA
+            </div>
           </div>
         </div>
         <div className="w-fit flex flex-row justify-around items-center">

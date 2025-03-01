@@ -84,18 +84,30 @@ export default function ScrollCanvas({ frames }: { frames: number }) {
   }, [loadImages]);
 
   return (
-    <div className="w-full" style={{ height: `${frames * 3}vh` }}>
+    <div className="w-full" style={{ height: `${frames * 2}vh` }}>
       {first && firstImage}
       <canvas
         ref={canvas}
         className="w-full sticky top-0 -z-10 h-screen transition-all"
       ></canvas>
-      <div className="w-full absolute top-0 h-screen flex flex-col justify-center items-center text-center text-white font-maven-pro left-0">
+      <div className="w-full absolute p-8 top-0 h-screen flex flex-col justify-center items-center text-center text-white font-maven-pro left-0">
         <p className="font-bold text-5xl">
           In 2018, there were upwards of 1.1 billion scheduled passengers in the
           U.S. alone.
         </p>
         <p className="text-lg">Bureau of Transportation Statistics</p>
+      </div>
+      <div className="w-full absolute top-screen h-screen flex flex-col justify-center items-center text-center text-white font-maven-pro left-0">
+        <p className="p-10 font-bold text-5xl">
+          Yet, air transportation has substantial consequences that are shaping
+          the world today and will continue to do so in the future
+        </p>
+      </div>
+      <div className="w-full absolute top-[200vh] h-screen flex flex-col justify-center items-center text-center text-white font-maven-pro left-0">
+        <p className="p-10 font-bold text-5xl">
+          Follow along as we narrate our findings on the unseen conflicts of air
+          travel through a digital humanities lense.
+        </p>
       </div>
     </div>
   );
