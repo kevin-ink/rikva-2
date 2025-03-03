@@ -1,16 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Flyout from "./flyout";
 import NavLink from "./navlink";
 
 export default function Navbar() {
   const [flyout, setFlyout] = useState(0);
+  const [navWidth, setNavWidth] = useState(0);
+  const navLinksRef = useRef<HTMLDivElement>(null);
 
   const handleFlyout = (x: number) => {
     setFlyout(x);
   };
+
+  useEffect(() => {
+    if (navLinksRef.current) {
+      setNavWidth(navLinksRef.current.offsetWidth);
+    }
+
+    const handleResize = () => {
+      if (navLinksRef.current) {
+        setNavWidth(navLinksRef.current.offsetWidth);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div
@@ -33,31 +50,31 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-        <div className="w-fit flex flex-row justify-around items-center">
+        <div ref={navLinksRef} className="flex flex-row justify-around">
           <NavLink
             href="/"
             text="Introduction"
-            onMouseEnter={() => handleFlyout(200)}
+            onMouseEnter={() => handleFlyout(0)}
           />
           <NavLink
             href="/data"
             text="Data"
-            onMouseEnter={() => handleFlyout(200)}
+            onMouseEnter={() => handleFlyout(35)}
           />
           <NavLink
             href="/narrative"
             text="Narrative"
-            onMouseEnter={() => handleFlyout(200)}
+            onMouseEnter={() => handleFlyout(100)}
           />
           <NavLink
             href="/about"
             text="About"
-            onMouseEnter={() => handleFlyout(200)}
+            onMouseEnter={() => handleFlyout(65)}
           />
         </div>
         <div className="flex-1"></div>
       </div>
-      <Flyout height={flyout} />
+      <Flyout height={flyout} width={navWidth} />
     </div>
   );
 }
